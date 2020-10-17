@@ -1,0 +1,44 @@
+@media (max-width: 991px) {
+    .lang {
+        width: 69%;
+    }
+}
+
+@media (max-width: 767px) {
+    .lang__item,
+    .lang__overlay {
+        width: 150px;
+        height: 150px;
+        a {
+            font-size: 20px;
+        }
+    }
+}
+
+@media (max-width: 575px) {
+    .lang__item,
+    .lang__overlay {
+        width: 140px;
+        height: 140px;
+        a {
+            font-size: 20px;
+        }
+    }
+    .lang {
+        width: 85%;
+    }
+}
+
+@media (max-width: 500px) {
+    .lang__item,
+    .lang__overlay {
+        width: 125px;
+        height: 125px;
+        a {
+            font-size: 18px;
+        }
+    }
+    .lang {
+        width: 85%;
+    }
+}
