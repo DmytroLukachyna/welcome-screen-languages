@@ -9,13 +9,11 @@ const htmlmin = require('gulp-htmlmin');
 const minify = require('gulp-minify');
 
 gulp.task('server', function() {
-
     browserSync({
         server: {
             baseDir: "dist"
         }
     });
-
     gulp.watch("src/*.html").on('change', browserSync.reload);
 });
 
@@ -35,7 +33,6 @@ gulp.task('watch', function() {
     gulp.watch("src/js/**/*.js").on('change', gulp.parallel('scripts'));
     gulp.watch("src/fonts/**/*").on('all', gulp.parallel('fonts'));
     gulp.watch("src/icons/**/*").on('all', gulp.parallel('icons'));
-    gulp.watch("src/img/**/*").on('all', gulp.parallel('images'));
 });
 
 gulp.task('html', function() {
@@ -70,11 +67,4 @@ gulp.task('icons', function() {
         .pipe(browserSync.stream());
 });
 
-gulp.task('images', function() {
-    return gulp.src("src/img/**/*")
-        .pipe(imagemin())
-        .pipe(gulp.dest("dist/img"))
-        .pipe(browserSync.stream());
-});
-
-gulp.task('default', gulp.parallel('watch', 'server', 'styles', 'html', 'scripts', 'fonts', 'icons', 'images'));
+gulp.task('default', gulp.parallel('watch', 'server', 'styles', 'html', 'scripts', 'fonts', 'icons'));
