@@ -1,1 +1,1 @@
-https://dmytrolukachyna.github.io/projects/languages/
+https://dmytrolukachyna.pp.ua/projects/pet/languages/

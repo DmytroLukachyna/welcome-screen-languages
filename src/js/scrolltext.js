@@ -1,103 +1,108 @@
-(function($) {
+(function ($) {
+  var defaults = {
+    container: '.container',
+    sections: 'li',
+    duration: 4000,
+    loop: true,
+    currentClass: 'current',
+    direction: 'up',
+  };
 
-    var defaults = {
-        'container': '.container',
-        'sections': 'li',
-        'duration': 4000,
-        'loop': true,
-        'currentClass': 'current',
-        'direction': 'up'
-    };
+  var opts = {},
+    container,
+    sections,
+    iIndex = 0,
+    content,
+    contentHeight,
+    contentChildHeight,
+    temp,
+    currentClass,
+    arrElements = [],
+    intervalID,
+    duration;
 
+  var ST = ($.fn.scrollText = function (options) {
+    opts = $.extend({}, defaults, options || {});
 
-    var opts = {},
-        container, sections, iIndex = 0,
-        content, contentHeight, contentChildHeight, temp, currentClass, arrElements = [],
-        intervalID, duration;
+    (container = $(opts.container)), (sections = container.find(opts.sections));
 
+    sections.each(function (index, item) {
+      arrElements.push(item);
+    });
 
-    var ST = $.fn.scrollText = function(options) {
-        opts = $.extend({}, defaults, options || {});
+    this.children('ul').addClass('ulzone');
+    content = $('.ulzone').eq(0);
 
-        container = $(opts.container),
-            sections = container.find(opts.sections);
+    contentHeight = content.height();
+    contentChildHeight = content.children().eq(0).height();
+    temp = contentChildHeight;
+    duration = opts.duration;
+    currentClass = opts.currentClass;
 
-        sections.each(function(index, item) {
-            arrElements.push(item);
-        });
+    return this.each(function () {
+      _initLayout(this);
+    });
+  });
 
-        this.children('ul').addClass('ulzone');
-        content = $('.ulzone').eq(0);
+  ST.up = function () {
+    content.animate({
+      marginTop: '-' + contentChildHeight,
+    });
+    arrElements.removeClass(currentClass);
+    iIndex += 1;
+    $(arrElements[iIndex]).addClass(currentClass);
 
-        contentHeight = content.height();
-        contentChildHeight = content.children().eq(0).height();
-        temp = contentChildHeight;
-        duration = opts.duration;
-        currentClass = opts.currentClass;
+    if (contentHeight === contentChildHeight) {
+      content.animate(
+        {
+          marginTop: '-' + contentChildHeight,
+        },
+        'normal',
+        ST.over,
+      );
+    } else {
+      contentChildHeight += temp;
+    }
+  };
 
-        return this.each(function() {
-            _initLayout(this);
-        });
+  ST.over = function () {
+    content.attr('style', 'margin-top:0');
+    contentChildHeight = temp;
+    iIndex = 0;
+    arrElements.removeClass(currentClass);
+    $(arrElements[iIndex]).addClass(currentClass);
+  };
 
-    };
+  function _initLayout(t) {
+    var that = t;
 
-    ST.up = function() {
-        content.animate({
-            marginTop: '-' + contentChildHeight
-        });
-        arrElements.removeClass(currentClass);
-        iIndex += 1;
-        $(arrElements[iIndex]).addClass(currentClass);
+    content.clone().insertAfter(content);
 
-        if (contentHeight === contentChildHeight) {
-            content.animate({
-                marginTop: '-' + contentChildHeight
-            }, 'normal', ST.over);
-        } else {
-            contentChildHeight += temp;
-        }
-    };
+    _handleStyle(that);
 
-    ST.over = function() {
-        content.attr('style', 'margin-top:0');
-        contentChildHeight = temp;
-        iIndex = 0;
-        arrElements.removeClass(currentClass);
-        $(arrElements[iIndex]).addClass(currentClass);
-    };
+    _scroll();
 
-    function _initLayout(t) {
-        var that = t;
+    _hover($(t));
+  }
 
-        content.clone().insertAfter(content);
+  function _handleStyle(t) {
+    arrElements = $(t).find('li');
+    var liCount = arrElements.length;
+    arrElements.eq(iIndex).addClass(currentClass);
+  }
 
-        _handleStyle(that);
+  function _scroll() {
+    intervalID = setInterval(ST.up, duration);
+  }
 
+  function _hover(t) {
+    t.hover(
+      function () {
+        clearInterval(intervalID);
+      },
+      function () {
         _scroll();
-
-        _hover($(t));
-    }
-
-    function _handleStyle(t) {
-
-        arrElements = $(t).find('li');
-        var liCount = arrElements.length;
-        arrElements.eq(iIndex).addClass(currentClass);
-    }
-
-    function _scroll() {
-
-        intervalID = setInterval(ST.up, duration);
-    }
-
-    function _hover(t) {
-
-        t.hover(function() {
-            clearInterval(intervalID);
-        }, function() {
-            _scroll();
-        });
-    }
-
-
+      },
+    );
+  }
 })(jQuery);

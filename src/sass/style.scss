@@ -1,15 +1,16 @@
 @import 'libs/normalize';
 @font-face {
-    font-family: 'Circe';
-    src: url('fonts/Circe-Regular.woff2') format('woff2'), url('fonts/Circe-Regular.woff') format('woff');
-    font-weight: normal;
-    font-style: normal;
-    font-display: swap;
+  font-family: 'Circe';
+  src: url('fonts/Circe-Regular.woff2') format('woff2'),
+    url('fonts/Circe-Regular.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
 }
 
 * {
-    font-family: Circe, Arial, sans-serif;
-    font-weight: normal;
+  font-family: Circe, Arial, sans-serif;
+  font-weight: normal;
 }
 
 @import 'libs/particles';
